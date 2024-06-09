@@ -6,7 +6,7 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropou
 import pandas as pd
 
 # 데이터셋 경로 설정
-dataset_dir = "/home/lyu0118/train_medi"
+dataset_dir = "d:/train_medi"
 
 # 데이터 증강을 포함한 ImageDataGenerator 설정
 datagen = ImageDataGenerator(
@@ -18,13 +18,15 @@ datagen = ImageDataGenerator(
     zoom_range=0.2,
     horizontal_flip=True,
     fill_mode="nearest",
+    learning_rate = 0.0001,
+    
     validation_split=0.2,  # 20%의 데이터를 검증 데이터로 사용
 )
 
 # 학습 데이터 생성기
 train_generator = datagen.flow_from_directory(
     dataset_dir,
-    target_size=(150, 150),
+    target_size=(244, 244),
     batch_size=32,
     class_mode="categorical", 
     subset="training",  # 학습 데이터로 사용
@@ -33,7 +35,7 @@ train_generator = datagen.flow_from_directory(
 # 검증 데이터 생성기
 validation_generator = datagen.flow_from_directory(
     dataset_dir,
-    target_size=(150, 150),
+    target_size=(244, 244),
     batch_size=32,
     class_mode="categorical",  # 다중 클래스 분류
     subset="validation",  # 검증 데이터로 사용
@@ -42,14 +44,14 @@ validation_generator = datagen.flow_from_directory(
 # 모델 생성
 model = Sequential(
     [
-        Conv2D(32, (3, 3), activation="relu", input_shape=(150, 150, 3)),
+        Conv2D(32, (3, 3), activation="relu", input_shape=(224, 224, 3)),
         MaxPooling2D(2, 2),
         Conv2D(64, (3, 3), activation="relu"),
         MaxPooling2D(2, 2),
         Conv2D(128, (3, 3), activation="relu"),
         MaxPooling2D(2, 2),
         Flatten(),
-        Dense(512, activation="relu"),
+        Dense(1024, activation="relu"),
         Dropout(0.5),
         Dense(10, activation="softmax"),  # 10개의 클래스
     ]
@@ -61,7 +63,7 @@ model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accur
 # 모델 학습
 history = model.fit(
     train_generator,
-    epochs=20,  # 에포크 수를 증가시킴
+    epochs=30,  # 에포크 수를 증가시킴
     validation_data=validation_generator,
 )
 
