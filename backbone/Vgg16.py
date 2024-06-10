@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import os
 
 # 데이터 경로
-data_dir = "d:/train_medi"
+data_dir = "c:/Users/KNUT/train_medi"
 
 # 하이퍼파라미터 설정
 img_width, img_height = 224, 224
@@ -69,7 +69,11 @@ history = model.fit(
 
 
 # 그래프 이미지를 저장할 폴더 경로
+<<<<<<<< Updated upstream:backbone/Vgg16.py
 save_dir = "d:/vgg_images_gr"  # 폴더 경로를 원하는 경로로 변경
+========
+save_dir = "c:/Users/KNUT/Vgg16_images"  # 폴더 경로를 원하는 경로로 변경
+>>>>>>>> Stashed changes:backbone/vgg16.py
 
 
 # 학습 및 검증 정확도와 손실 값을 Python 리스트로 변환
@@ -88,7 +92,7 @@ def save_plot(history, save_dir):
     plt.plot(epochs_range, val_acc, label="Validation Accuracy")
     plt.legend(loc="lower right")
     plt.title("Training and Validation Accuracy")
-    plt.savefig(os.path.join(save_dir, 'Validation Accuracy.png'))
+    plt.savefig(os.path.join(save_dir, 'Validation Accuracy0.png'))
 
     plt.subplot(1, 2, 2)
     plt.plot(epochs_range, loss, label="Training Loss")
@@ -96,7 +100,7 @@ def save_plot(history, save_dir):
     plt.legend(loc="upper right")
     plt.title("Training and Validation Loss")
     plt.show()
-    plt.savefig(os.path.join(save_dir, 'Validation Loss.png'))
+    plt.savefig(os.path.join(save_dir, 'Validation Loss0.png'))
 
     # 최종 학습 및 검증 정확도 출력
     print(f"Final Training Accuracy: {acc[-1] * 100:.2f}%")
@@ -104,4 +108,8 @@ def save_plot(history, save_dir):
 
 # 그래프 이미지를 저장합니다
 save_plot(history, save_dir)
+<<<<<<<< Updated upstream:backbone/Vgg16.py
+========
+
+>>>>>>>> Stashed changes:backbone/vgg16.py
 
