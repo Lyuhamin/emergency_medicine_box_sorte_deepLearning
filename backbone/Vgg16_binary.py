@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import os
 
 # 데이터 경로
-data_dir = "d:/train_medi"
+data_dir = "c:/Users/KNUT/train_medi"
 
 # 데이터 생성기
 img_width, img_height = (244, 244)
@@ -76,7 +76,7 @@ history = model.fit(
 )
 
 # 그래프 이미지를 저장할 폴더 경로
-save_dir = "d:/vgg_images_gr"  # 폴더 경로를 원하는 경로로 변경
+save_dir = "c:/Users/KNUT/images_gr"  # 폴더 경로를 원하는 경로로 변경
 
 # 학습 및 검증 정확도와 손실 값을 Python 리스트로 변환
 def save_plot(history, save_dir):
@@ -94,14 +94,14 @@ def save_plot(history, save_dir):
     plt.plot(epochs_range, val_acc, label="Validation Accuracy")
     plt.legend(loc="lower right")
     plt.title("Training and Validation Accuracy")
-    plt.savefig(os.path.join(save_dir, 'Validation Accuracy3.png'))
+    plt.savefig(os.path.join(save_dir, 'Validation Accuracy4.png'))
 
     plt.subplot(1, 2, 2)
     plt.plot(epochs_range, loss, label="Training Loss")
     plt.plot(epochs_range, val_loss, label="Validation Loss")
     plt.legend(loc="upper right")
     plt.title("Training and Validation Loss")
-    plt.savefig(os.path.join(save_dir, 'Validation Loss3.png'))
+    plt.savefig(os.path.join(save_dir, 'Validation Loss4.png'))
 
     # 최종 학습 및 검증 정확도 출력
     print(f"Final Training Accuracy: {acc[-1] * 100:.2f}%")
