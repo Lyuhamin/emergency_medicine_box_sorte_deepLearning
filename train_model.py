@@ -11,7 +11,11 @@ import matplotlib.pyplot as plt
 plt.switch_backend("Agg")
 
 # 데이터셋 경로
+<<<<<<< Updated upstream
 dataset_path = "d:/train_medi"
+=======
+dataset_path = "c:/Users/KNUT/train_medi"
+>>>>>>> Stashed changes
 
 # 데이터 증강 및 전처리
 datagen = ImageDataGenerator(
@@ -74,7 +78,15 @@ history = model.fit(
 model.save('d:/train_medi')
 
 # 그래프 이미지를 저장할 폴더 경로
+<<<<<<< HEAD
 save_google_dir = "d:/Googlenet_images_gr"
+=======
+<<<<<<< Updated upstream
+save_google_dir = "d:/vgg_images_gr"  # 폴더 경로를 원하는 경로로 변경
+=======
+save_google_dir = "c:/Users/KNUT/images_gr"  # 폴더 경로를 원하는 경로로 변경
+>>>>>>> Stashed changes
+>>>>>>> 8b11243f2ce10b65b6ab4b691d4ff3bebe78fc80
 
 # 학습 및 검증 정확도와 손실 값을 Python 리스트로 변환
 def save_plot(history, save_google_dir):
