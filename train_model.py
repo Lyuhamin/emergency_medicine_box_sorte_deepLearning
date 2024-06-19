@@ -16,14 +16,14 @@ dataset_path = "d:/train_medi"
 # 데이터 증강 및 전처리
 datagen = ImageDataGenerator(
     rescale=1.0 / 255,
-    rotation_range=40,  # 이미지 회전 범위
-    width_shift_range=0.2,  # 이미지 수평 이동 범위
-    height_shift_range=0.2,  # 이미지 수직 이동 범위
-    shear_range=0.2,  # 이미지 전단 변환 범위
-    zoom_range=0.2,  # 이미지 확대 범위
-    horizontal_flip=True,  # 이미지 수평 반전
-    fill_mode="nearest",  # 변환 중 생기는 빈 공간을 채우는 방식
-    validation_split=0.2,  # 검증 데이터 비율
+    rotation_range=40,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode="nearest",
+    validation_split=0.2,
 )
 
 # 학습 데이터 생성기
@@ -57,7 +57,7 @@ predictions = Dense(train_datagen.num_classes, activation="softmax")(x)
 model = Model(inputs=base_model.input, outputs=predictions)
 
 # 학습률 설정
-learning_rate = 0.0001  # 학습률
+learning_rate = 0.0001
 optimizer = Adam(learning_rate=learning_rate)
 
 # 모델 컴파일
@@ -66,15 +66,15 @@ model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=["ac
 # 모델 학습
 history = model.fit(
     train_datagen,
-    epochs=30,  # 여기에서 epochs를 조절합니다.
+    epochs=30,
     validation_data=validation_datagen,
 )
 
-# 모델 저장
-model.save_weights('path_to_your_model_weights.h5')
+# 모델 저장 (SavedModel 형식)
+model.save('d:/train_medi')
 
 # 그래프 이미지를 저장할 폴더 경로
-save_google_dir = "d:/vgg_images_gr"  # 폴더 경로를 원하는 경로로 변경
+save_google_dir = "d:/Googlenet_images_gr"
 
 # 학습 및 검증 정확도와 손실 값을 Python 리스트로 변환
 def save_plot(history, save_google_dir):

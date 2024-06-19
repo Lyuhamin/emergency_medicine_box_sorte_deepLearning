@@ -44,16 +44,6 @@ validation_datagen = datagen.flow_from_directory(
     subset="validation",
 )
 
-# 테스트 데이터 생성기
-test_datagen = datagen.flow_from_directory(
-    dataset_path,
-    target_size=(244, 244),
-    batch_size=32,
-    class_mode="categorical",
-    subset="validation",
-    shuffle=False  # 테스트 데이터는 셔플하지 않음
-)
-
 # GoogLeNet 모델 불러오기
 base_model = InceptionV3(weights="imagenet", include_top=False, input_shape=(244, 244, 3))
 
@@ -79,6 +69,9 @@ history = model.fit(
     epochs=30,  # 여기에서 epochs를 조절합니다.
     validation_data=validation_datagen,
 )
+
+# 모델 저장
+model.save_weights('path_to_your_model_weights.h5')
 
 # 그래프 이미지를 저장할 폴더 경로
 save_google_dir = "d:/vgg_images_gr"  # 폴더 경로를 원하는 경로로 변경
@@ -114,24 +107,9 @@ def save_plot(history, save_google_dir):
     plt.savefig(os.path.join(save_google_dir, 'Validation_Loss3.png'))
     plt.close()
 
-    # 최종 학습 및 검증 정확도와 손실 출력
+    # 최종 학습 및 검증 정확도 출력
     print(f"Final Training Accuracy: {acc[-1] * 100:.2f}%")
     print(f"Final Validation Accuracy: {val_acc[-1] * 100:.2f}%")
-    print(f"Final Training Loss: {loss[-1]:.4f}")
-    print(f"Final Validation Loss: {val_loss[-1]:.4f}")
-
-    # 전체 학습 및 검증 정확도와 손실 출력
-    for epoch in epochs_range:
-        print(f"Epoch {epoch+1}:")
-        print(f"    Training Accuracy: {acc[epoch] * 100:.2f}%")
-        print(f"    Validation Accuracy: {val_acc[epoch] * 100:.2f}%")
-        print(f"    Training Loss: {loss[epoch]:.4f}")
-        print(f"    Validation Loss: {val_loss[epoch]:.4f}")
 
 # 그래프 이미지를 저장합니다
 save_plot(history, save_google_dir)
-
-# 테스트 데이터 평가
-test_loss, test_accuracy = model.evaluate(test_datagen)
-print(f"Test Accuracy: {test_accuracy * 100:.2f}%")
-print(f"Test Loss: {test_loss:.4f}")

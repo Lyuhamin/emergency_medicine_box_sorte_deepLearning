@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Classification</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        #output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Classification</h1>
+    <video id="video" width="320" height="240" autoplay></video>
+    <button id="snap">Capture</button>
+    <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+    <div id="output"></div>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const snapButton = document.getElementById('snap');
+        const output = document.getElementById('output');
+
+        // 비디오 스트림 설정
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                console.log("Video stream started.");
+            })
+            .catch(error => {
+                console.error('Error accessing media devices.', error);
+            });
+
+        snapButton.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            console.log("Image captured.");
+
+            canvas.toBlob(blob => {
+                console.log("Blob created.");
+                const formData = new FormData();
+                formData.append('image', blob);
+
+                fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Response received:", data);
+                    output.textContent = `Predicted Class: ${data.class}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    output.textContent = `Error: ${error.message}`;
+                });
+            }, 'image/jpeg');
+        });
+    </script>
+</body>
+</html>
