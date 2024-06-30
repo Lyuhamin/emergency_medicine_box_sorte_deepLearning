@@ -6,26 +6,14 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropou
 import pandas as pd
 
 # 데이터셋 경로 설정
-<<<<<<< Updated upstream
 dataset_dir = "d:/train_medi"
-=======
-dataset_dir = "c:/Users/KNUT/train_medi"
->>>>>>> Stashed changes
+
 
 # 데이터 증강을 포함한 ImageDataGenerator 설정
 datagen = ImageDataGenerator(
     rescale=1.0 / 255,
-<<<<<<< Updated upstream
-    rotation_range=40,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    shear_range=0.2,
-    zoom_range=0.2,
-    horizontal_flip=True,
-    fill_mode="nearest",
     learning_rate = 0.0001,
-    
-=======
+
 #    rotation_range=40,
 #    width_shift_range=0.2,
 #    height_shift_range=0.2,
@@ -33,18 +21,14 @@ datagen = ImageDataGenerator(
 #    zoom_range=0.2,
 #    horizontal_flip=True,
 #    fill_mode="nearest",
->>>>>>> Stashed changes
+
     validation_split=0.2,  # 20%의 데이터를 검증 데이터로 사용
 )
 
 # 학습 데이터 생성기
 train_generator = datagen.flow_from_directory(
     dataset_dir,
-<<<<<<< Updated upstream
-    target_size=(244, 244),
-=======
     target_size=(224, 224),  # 모든 레이어의 input_shape와 일치시킴
->>>>>>> Stashed changes
     batch_size=32,
     class_mode="categorical", 
     subset="training",  # 학습 데이터로 사용
@@ -53,11 +37,7 @@ train_generator = datagen.flow_from_directory(
 # 검증 데이터 생성기
 validation_generator = datagen.flow_from_directory(
     dataset_dir,
-<<<<<<< Updated upstream
-    target_size=(244, 244),
-=======
     target_size=(224, 224),  # 모든 레이어의 input_shape와 일치시킴
->>>>>>> Stashed changes
     batch_size=32,
     class_mode="categorical",  # 다중 클래스 분류
     subset="validation",  # 검증 데이터로 사용
@@ -66,11 +46,7 @@ validation_generator = datagen.flow_from_directory(
 # 모델 생성
 model = Sequential(
     [
-<<<<<<< Updated upstream
-        Conv2D(32, (3, 3), activation="relu", input_shape=(224, 224, 3)),
-=======
         Conv2D(32, (3, 3), activation="relu", input_shape=(224, 224, 3)),  # input_shape 수정
->>>>>>> Stashed changes
         MaxPooling2D(2, 2),
         Conv2D(64, (3, 3), activation="relu"),
         MaxPooling2D(2, 2),

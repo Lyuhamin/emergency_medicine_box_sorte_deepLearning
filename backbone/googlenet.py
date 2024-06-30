@@ -1,9 +1,5 @@
 import os
 import tensorflow as tf
-<<<<<<< Updated upstream
-import keras
-=======
->>>>>>> Stashed changes
 from keras.preprocessing.image import ImageDataGenerator
 from keras.applications import InceptionV3
 from keras.models import Model
@@ -14,11 +10,7 @@ import matplotlib.pyplot as plt
 plt.switch_backend("Agg")
 
 # 데이터셋 경로
-<<<<<<< Updated upstream
 dataset_path = "d:/train_medi"
-=======
-dataset_path = "c:/Users/KNUT/train_medi"
->>>>>>> Stashed changes
 
 # 데이터 증강 및 전처리
 datagen = ImageDataGenerator(rescale=1.0 / 255, validation_split=0.2)
@@ -40,11 +32,8 @@ validation_datagen = datagen.flow_from_directory(
 )
 
 # GoogLeNet 모델 불러오기
-<<<<<<< Updated upstream
 base_model = InceptionV3(weights="imagenet", include_top=False, input_shape=(244, 244, 3))
-=======
-base_model = InceptionV3(weights="imagenet", include_top=False)
->>>>>>> Stashed changes
+
 
 # 모델 구조 쌓기
 x = base_model.output
@@ -64,8 +53,6 @@ history = model.fit(
     epochs=30,  # 여기에서 epochs를 조절합니다.
     validation_data=validation_datagen,
 )
-
-<<<<<<< Updated upstream
 
 # 그래프 이미지를 저장할 폴더 경로
 save_google_dir = "d:/Googlenet_images_gr"  # 폴더 경로를 원하는 경로로 변경
@@ -107,42 +94,3 @@ def save_plot(history, save_google_dir):
 
 # 그래프 이미지를 저장합니다
 save_plot(history, save_google_dir)
-=======
-# 그래프 이미지를 저장할 폴더 경로
-save_dir = "c:/Users/KNUT/images_gr"  # 폴더 경로를 원하는 경로로 변경
-
-# 학습 및 검증 정확도와 손실 값을 Python 리스트로 변환
-def save_plot(history, save_dir):
-    # 디렉터리가 존재하지 않으면 생성합니다.
-    if not os.path.exists(save_dir):
-        os.makedirs(save_dir)
-
-    # 정확도 그래프
-    plt.plot(history.history["accuracy"], label="train accuracy")
-    plt.plot(history.history["val_accuracy"], label="validation accuracy")
-    plt.title("Model accuracy")
-    plt.xlabel("Epoch")
-    plt.ylabel("Accuracy")
-    plt.legend(loc="upper left")
-    plt.savefig(os.path.join(save_dir, "accuracy9.png"))  # 그래프를 파일로 저장
-    plt.close()  # 그래프를 닫습니다.
-
-    # 손실 그래프
-    plt.plot(history.history["loss"], label="train loss")
-    plt.plot(history.history["val_loss"], label="validation loss")
-    plt.title("Model loss")
-    plt.xlabel("Epoch")
-    plt.ylabel("Loss")
-    plt.legend(loc="upper left")
-    plt.savefig(os.path.join(save_dir, "loss9.png"))  # 그래프를 파일로 저장
-    plt.close()  # 그래프를 닫습니다.
-
-    # 최종 학습 및 검증 정확도 출력
-    final_train_acc = history.history["accuracy"][-1]
-    final_val_acc = history.history["val_accuracy"][-1]
-    print(f"Final Training Accuracy: {final_train_acc * 100:.2f}%")
-    print(f"Final Validation Accuracy: {final_val_acc * 100:.2f}%")
-
-# 그래프 이미지를 저장합니다
-save_plot(history, save_dir)
->>>>>>> Stashed changes
