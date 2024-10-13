@@ -63,7 +63,7 @@ def index():
 
 
 if __name__ == "__main__":
-=======
+
 @app.route('/upload', methods=['POST'])
 def upload_image():
     if 'image' not in request.files:
