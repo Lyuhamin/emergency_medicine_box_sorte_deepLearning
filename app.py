@@ -31,7 +31,7 @@ class_names = [
 ]
 
 def preprocess_image(img):
-    img = cv2.resize(img, (299, 299))
+    img = cv2.resize(img, (244, 244))
     img = preprocess_input(img)
     img = np.expand_dims(img, axis=0)
     return img
@@ -62,7 +62,8 @@ def index():
     return render_template("index.html")
 
 
-if __name__ == "__main__":
+
+
 
 @app.route('/upload', methods=['POST'])
 def upload_image():
@@ -77,10 +78,17 @@ def upload_image():
     file.save(file_path)
 
     try:
-        prediction = predict(file_path)
-        return jsonify({'class': prediction})
+        img = cv2.imread(file_path)
+
+        if img is None:
+            raise ValueError("cv2.imread() failed. Image is None.")
+        predicted_class, confidence = predict_image(model, img)
+        return jsonify({'class': predicted_class, 'confidence': float(confidence)})
     except Exception as e:
+        print(f"[ERROR] Prediction failed: {e}")
         return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+
