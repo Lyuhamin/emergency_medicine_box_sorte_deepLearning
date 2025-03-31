@@ -1,11 +1,10 @@
 from flask import Flask, request, jsonify, render_template
 from werkzeug.utils import secure_filename
 import os
-from flask import Flask, request, render_template
 import cv2
 import numpy as np
 from tensorflow.keras.applications.inception_v3 import preprocess_input
-from tensorflow.keras.models import load_model
+from goog_hyper import model 
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "static/uploads"
@@ -13,10 +12,7 @@ app.config["UPLOAD_FOLDER"] = "static/uploads"
 # Ensure the upload folder exists
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
-# 모델 경로 설정 (SavedModel 형식)
-model_path = "d:/train_medi"
-model = load_model(model_path)
-
+# 클래스 이름
 class_names = [
     "메가인",
     "밴드",
@@ -48,7 +44,7 @@ def index():
     if request.method == "POST":
         file = request.files["file"]
         if file:
-            filename = file.filename
+            filename = secure_filename(file.filename)
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(file_path)
             img = cv2.imread(file_path)
@@ -61,34 +57,27 @@ def index():
             )
     return render_template("index.html")
 
-
-
-
-
-@app.route('/upload', methods=['POST'])
+@app.route("/upload", methods=["POST"])
 def upload_image():
-    if 'image' not in request.files:
-        return jsonify({'error': 'No image provided'}), 400
-    file = request.files['image']
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
+    if "image" not in request.files:
+        return jsonify({"error": "No image provided"}), 400
+    file = request.files["image"]
+    if file.filename == "":
+        return jsonify({"error": "No selected file"}), 400
 
     filename = secure_filename(file.filename)
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     file.save(file_path)
 
     try:
         img = cv2.imread(file_path)
-
         if img is None:
             raise ValueError("cv2.imread() failed. Image is None.")
         predicted_class, confidence = predict_image(model, img)
-        return jsonify({'class': predicted_class, 'confidence': float(confidence)})
+        return jsonify({"class": predicted_class, "confidence": float(confidence)})
     except Exception as e:
         print(f"[ERROR] Prediction failed: {e}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
-

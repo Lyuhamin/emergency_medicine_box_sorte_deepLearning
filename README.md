@@ -10,5 +10,5 @@ training, test 이미지는 모두 자작 DB입니다.
 
 
 <순서>
-1. goog_hyper.py를 실행해서 이미지 학습 시작
+1. goog_hyper.py를 실행
 2. 이후 app.py를 실행하시면 됩니다.
